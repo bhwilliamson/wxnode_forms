@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="<%= root %>/sys_resources/js/globalErrorMessages.js">;</script>
 		<script type="text/javascript" src="<%= root %>/sys_resources/js/<%= locale %>/globalErrorMessages.js">;</script>
 		<script type="text/javascript" src="<%= root %>/tmx/tmx.jsp?sys_lang=<%= locale %>">;</script>
+		<script type="text/javascript" src="<%= root %>/rx_resources/js/wxnodeform.js">;</script>
 
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script type="text/javascript" >
@@ -23,9 +24,17 @@
 				//opener is a reference to the content editor page, which gives you access to all global javascript variables
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
-					$('input:not(:button)').each(function(n,element) {
+					//Get text fields
+					$('input:text').each(function(n,element) {
 						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 					});
+					//Get radio buttons
+					$('input:radio').each(function(n,element) {
+						if($(this).attr("checked") == "checked") {
+							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						}
+					});
+					//alert(allInputNameValuePairs);
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
@@ -34,45 +43,49 @@
 		</script>
 	</head>
 	<body>
-		<form id="embed_youtube">	
-		<table border="0" cellpadding="0" cellspacing="5" width="100%">		
+		<form id="embed_youtube">
+		<table border="0" cellpadding="0" cellspacing="5" width="100%">
                 	<tr>
-                        	<td colspan="2"></td>
+                        	<td colspan="2" id="error_messages" class="headercell2errorfont"></td>
                       	</tr>
-                      	<tr>                      	
+                      	<tr>
                       		<td class="controlname"><label for="class">Class:</label></td>
-                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" tabindex="0" value="youttube" readonly/></td>
+                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" tabindex="0" value="youtube" readonly/></td>
                       	</tr>
-                      	<tr>                      	
-                      		<td class="controlname"><label for="allowfullscreen">Allow Fullscreen:</label></td>
-                      		<td><input class="datadisplay" size="50" id="allowfullscreen" name="allowfullscreen" type="text" value="true" /></td>
+                      	<tr>
+                      		<td class="controlname"><label for="title">Title:</label></td>
+                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text" value="" /></td>
                       	</tr>
-                      	<tr>                      	
+                      	<tr>
+                      		<td class="controlname"><label for="src">Source:</label></td>
+                      		<td><input class="datadisplay required" size="50" id="src" name="src" type="text" value="" /></td>
+                      	</tr>
+                      	<tr>
+                      		<td class="controlname"><label for="height">Height:</label></td>
+                      		<td><input class="datadisplay required" size="50" id="height" name="height" type="text" value="366px" /></td>
+                      	</tr>
+                      	<tr>
+                      		<td class="controlname"><label for="width">Width:</label></td>
+                      		<td><input class="datadisplay required" size="50" id="width" name="width" type="text" value="650px" /></td>
+                      	</tr>
+                      	<tr>
                       		<td class="controlname"><label for="frameborder">Frame Border:</label></td>
                       		<td><input class="datadisplay" size="50" id="frameborder" name="frameborder" type="text" value="0" /></td>
                       	</tr>
-                      	<tr>                      	
-                      		<td class="controlname"><label for="height">Height:</label></td>
-                      		<td><input class="datadisplay" size="50" id="height" name="height" type="text" value="750px" /></td>
-                      	</tr>
-                      	<tr>                      	
-                      		<td class="controlname"><label for="src">Source:</label></td>
-                      		<td><input class="datadisplay" size="50" id="src" name="src" type="text" value="" /></td>
-                      	</tr>
-                      	<tr>                      	
-                      		<td class="controlname"><label for="title">Title:</label></td>
-                      		<td><input class="datadisplay" size="50" id="title" name="title" type="text" value="" /></td>
-                      	</tr>
-                      	<tr>                      	
-                      		<td class="controlname"><label for="width">Width:</label></td>
-                      		<td><input class="datadisplay" size="50" id="width" name="width" type="text" value="600px" /></td>
+                      	<tr>
+                      		<td class="controlname"><label for="allowfullscreen">Allow Fullscreen:</label></td>
+				<td>
+					<input class="datadisplay" type="radio" id="allowfullscreen_yes" name="allowfullscreen" value="Yes" checked="checked"/><span class="controlname">Yes</span>
+					<input class="datadisplay" type="radio" id="allowfullscreen_no" name="allowfullscreen" value="No"/><span class="controlname">No</span><br/>
+                             </td>
                       	</tr>
                       	<tr>
                       		<td align="center" class="headercell2" colspan="2">
-                      			<button type="submit" name="submit">Submit</button>
+                      			<button type="submit" name="submit" onclick="return validateTextFields()">Submit</button>
                       		</td>
-                      	</tr>			
-		</table>			
+                      	</tr>
+		</table>
 		</form>
 	</body>
+
 </html>

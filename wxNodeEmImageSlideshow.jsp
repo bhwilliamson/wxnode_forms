@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="<%= root %>/sys_resources/js/globalErrorMessages.js">;</script>
 		<script type="text/javascript" src="<%= root %>/sys_resources/js/<%= locale %>/globalErrorMessages.js">;</script>
 		<script type="text/javascript" src="<%= root %>/tmx/tmx.jsp?sys_lang=<%= locale %>">;</script>
+		<script type="text/javascript" src="<%= root %>/rx_resources/js/wxnodeform.js">;</script>
 
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
 		<script type="text/javascript" >
@@ -23,8 +24,15 @@
 				//opener is a reference to the content editor page, which gives you access to all global javascript variables
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
-					$('input:not(:button)').each(function(n,element) {
+					//Get text fields
+					$('input:text').each(function(n,element) {
 						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+					});
+					//Get radio buttons
+					$('input:radio').each(function(n,element) {
+						if($(this).attr("checked") == "checked") {
+							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						}
 					});
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
@@ -38,23 +46,26 @@
 		<table border="0" cellpadding="0" cellspacing="5" summary="wx external image form" width="100%">
 		<wxnode:module class="slideshow" providerid="" articleid="" sizecode="3" title=""/>
                 	<tr>
-                        	<td colspan="2"></td>
+                        	<td colspan="2" id="error_messages" class="headercell2errorfont"></td>
                       	</tr>
                       	<tr>                      	
                       		<td class="controlname"><label for="class">Class:</label></td>
-                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" tabindex="0" value="slideshow" readonly/></td>
+                      		<td><input class="datadisplay required" size="50" id="class" name="class" type="text" tabindex="0" value="slideshow" readonly/></td>
                       	</tr>
                       	<tr>                      	
                       		<td class="controlname"><label for="collectionid">Collection ID:</label></td>
-                      		<td><input class="datadisplay" size="50" id="collectionid" name="collectionid" type="text"/></td>
+                      		<td><input class="datadisplay required" size="50" id="collectionid" name="collectionid" type="text"/></td>
                       	</tr>
                       	<tr>                      	
                       		<td class="controlname"><label for="title">Title:</label></td>
-                      		<td><input class="datadisplay" size="50" id="title" name="title" type="text"/></td>
+                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text"/></td>
                       	</tr>                        	
                       	<tr>                      	
                       		<td class="controlname"><label for="sizecode">Size Code:</label></td>
-                      		<td><input class="datadisplay" size="50" id="sizecode" name="sizecode" type="text" value=""/></td>
+                      		<td>
+					<input class="datadisplay required" type="radio" id="sizecode_lead" name="sizecode" value="16:9 Lead" checked="checked"/><span class="controlname">16:9 Lead</span>
+					<input class="datadisplay" type="radio" id="sizecode_immersive" name="sizecode" value="16:9 Immersive"/><span class="controlname">16:9 Immersive</span><br/>                      		
+				</td>
                       	</tr> 
                       	<tr>                      	
                       		<td class="controlname"><label for="refreshPageViewBeacon">Refresh Page View Beacon:</label></td>
@@ -74,7 +85,7 @@
                       	</tr>                       	
                       	<tr>
                       		<td align="center" class="headercell2" colspan="2">
-                      			<button type="submit" name="submit">Submit</button>
+                      			<button type="submit" name="submit" onclick="return validateTextFields()">Submit</button>
                       		</td>
                       	</tr>			
 		</table>					

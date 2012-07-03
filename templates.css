@@ -1,0 +1,123 @@
+/*----------------------- Local template styles - added by Percussion Software----------------------*/
+
+th.headercell {
+   BACKGROUND: #ceddff;
+   padding: 3px 30px 3px 1px;
+   height: 18px;
+   border-top: 1px solid #99a;
+   border-bottom: 1px solid #99a;
+}
+
+.datadisplay 
+{
+    font-size:11px;
+}
+
+body.contenteditor {
+	background-color: #F7F8FD;
+	margin: 6px;
+}
+
+body, td, span, div, p {
+	font-family: verdana, sans-serif !IMPORTANT;
+}
+
+td.controlname, td.controlnameerror {
+	font-family: verdana, sans-serif;
+	font-size: 0.83em;
+	text-align: right;
+}
+
+input.datadisplay, textarea.datadisplay, select.datadisplay {
+	font-family: verdana, sans-serif;
+	font-size: 0.83em;	
+	border: 1px solid #666666;
+	padding: 2px;
+}
+
+td.required input, td.required textarea, td.required select, 
+td.controlerror input, td.controlerror textarea, td.controlerror select {
+	background: #FCF3EB;
+}
+
+label.required {
+	color: #E26500;
+}
+
+td.controlnameerror
+{
+	color: #FF0000;
+}
+
+
+table.editorcontrols td
+{
+	background-color: #F7F8FD;
+}
+
+body.contenteditor table.outerboxcell, body.contenteditor td.headercell2
+{
+	/* background-color: transparent; */
+}
+
+body.contenteditor table.errormessages
+{
+	border: 0 1px 0 1px;
+	border-style:solid;
+	border-color: #CEDDFF;
+
+}
+
+.twc_hiddenfield 
+{
+	display: none;
+}
+
+body.contenteditor table.errormessages table.backgroundcolor tr.errorrow td
+{
+	padding-bottom: 2px;
+	border-bottom: 1px solid #CEDDFF;
+}
+
+body.contenteditor table.errormessages td.headercell2errorfont
+{
+	padding: 1px;
+}
+
+body.contenteditor table.errormessages tr.headercell td
+{
+	padding: 3px;
+}
+
+#blanket {
+   background-color:#111;
+   opacity: 0.65;
+   *background:none;
+   position:absolute;
+   z-index: 9001;
+   top:0px;
+   left:0px;
+   width:100%;
+}
+
+#processing {
+	position: absolute;
+	z-index: 9002;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+}
+
+tr.show-row {
+	display:table-row;
+}
+
+tr.hide-row {
+	display:none;
+}
+
+input.datadisplay[type="radio"] {
+	border: 0px;
+}
+
