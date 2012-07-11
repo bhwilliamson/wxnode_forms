@@ -26,7 +26,9 @@
 					var allInputNameValuePairs = '';
 					//Get text fields
 					$('input:text').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						var input_name = $(this).attr("name");
+						if (input_name && input_name.indexOf('topic_') == -1)
+							allInputNameValuePairs += input_name + '="' + $(this).val() + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -38,6 +40,16 @@
 					$('textarea').each(function(n,element) {
 						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 					});
+					//Build links
+					var links_txt = '';
+					for (var i=1; i<=6; i++) {
+						var curr_link = $('#topic_' + i + '_link');
+						var curr_txt = $('#topic_' + i + '_text');
+						if (curr_link.length && curr_txt.length) {
+							links_txt += '<a href=\'' + curr_link.val() + '\'>' + curr_txt.val() + '</a>';
+						}
+					}
+					allInputNameValuePairs += 'links="' + links_txt + '" ';
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
@@ -76,8 +88,8 @@
                       		<td class="controlname"><label for="sizecode">Size Code:</label></td>
                       		<td>
 					<input class="datadisplay" type="radio" id="sizecode_lead_16:9" name="sizecode" value="Lead 16:9" checked="checked" onChange="onSizeChange(this)"/><span class="controlname">Lead 16:9</span>
-					<input class="datadisplay" type="radio" id="sizecode_inset_16:9" name="sizecode" value="Inset 16:9" onChange="onSizeChange(this)"/><span class="controlname">Inset 16:9</span><br/>
-					<input class="datadisplay" type="radio" id="sizecode_vertical_lead" name="sizecode" value="Vertical Lead" onChange="onSizeChange(this)"/><span class="controlname">Vertical Lead</span><br/>
+					<input class="datadisplay" type="radio" id="sizecode_inset_16:9" name="sizecode" value="Inset 16:9" onChange="onSizeChange(this)"/><span class="controlname">Inset 16:9</span>
+					<input class="datadisplay" type="radio" id="sizecode_vertical_lead" name="sizecode" value="Vertical Lead" onChange="onSizeChange(this)"/><span class="controlname">Vertical Lead</span>
 					<input class="datadisplay" type="radio" id="sizecode_vertical_inset" name="sizecode" value="Vertical Inset" onChange="onSizeChange(this)"/><span class="controlname">Vertical Inset</span><br/>
                             	</td>
                       	</tr>
@@ -105,7 +117,7 @@
                       		<td><input class="datadisplay" size="50" id="title" name="title" type="text" value=""/></td>
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="link">Element Link:</label></td>
+                      		<td class="controlname"><label for="link">Link:</label></td>
                       		<td><input class="datadisplay" size="50" id="link" name="link" type="text" value=""/></td>
                       	</tr>
                       	<tr>

@@ -25,7 +25,9 @@
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
 					$('input:text').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						var input_name = $(this).attr("name");
+						if (input_name && input_name.indexOf('topic_') == -1)
+							allInputNameValuePairs += input_name + '="' + $(this).val() + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -37,6 +39,16 @@
 					$('textarea').each(function(n,element) {
 						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 					});
+					//Build links
+					var links_txt = '';
+					for (var i=1; i<=6; i++) {
+						var curr_link = $('#topic_' + i + '_link');
+						var curr_txt = $('#topic_' + i + '_text');
+						if (curr_link.length && curr_txt.length) {
+							links_txt += '<a href=\'' + curr_link.val() + '\'>' + curr_txt.val() + '</a>';
+						}
+					}
+					allInputNameValuePairs += 'links="' + links_txt + '" ';
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
@@ -92,7 +104,7 @@
                       		<td><input class="datadisplay required" size="50" id="link" name="link" type="text"/></td>
                       	</tr>
                         <tr>
-				<td class="controlname"><label for="synopsis">Description:</label></td>
+				<td class="controlname"><label for="synopsis">Description(Desktop):</label></td>
 				<td><textarea rows="6" cols="45" id="synopsis" name="synopsis"></textarea></td>
                         </tr>
 <%--
@@ -135,7 +147,7 @@
                       		<td><input class="datadisplay" size="50" id="type" name="type" type="text" value="externalasset" readonly/></td>
                       	</tr>
                       	<tr class="hide-row">
-                      		<td class="controlname"><label for="caption">Caption:</label></td>
+                      		<td class="controlname"><label for="caption">Caption(Mobile):</label></td>
                       		<td><input class="datadisplay" size="50" id="caption" name="caption" type="text" value=""/></td>
                       	</tr>
                         <tr class="hide-row">

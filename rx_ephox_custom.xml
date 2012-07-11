@@ -1,0 +1,150 @@
+<!-- Ephox custom javascript functions -->
+<!--
+
+   Keep in mind that this file is a snippet of code that will be injected into an
+   XSL file and CDATA will need to be used to be sure that XSL evaluation does not
+   occur on code that it should not occur on such as javascript operators such as &&
+   
+   The following is an example of how the custom function should look, notice the
+   <xsl:value-of select="$name"/>, this is a variable that is set in the calling template
+   and is used to append the field name to the function name so that this function is unique for
+   this field. This is the only way to keep context for the Ephox control that this function
+   should operate on:
+   
+
+        <![CDATA[
+        function RxEphoxDummyFunction_]]><xsl:value-of select="$name"/><![CDATA[()
+      	{
+               // Get EditLive editor instance
+               var EditorName = "]]><xsl:value-of select="@paramName" /><![CDATA[";
+               var editor = getEditor(EditorName);
+               //Get a reference to the EditLive applet
+               var ephox = editor.objectref;
+      	}
+      	]]>
+-->      	
+<![CDATA[
+   function wxNodeMap_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeMap.jsp",'wxNodeMap','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeEmExternalImage_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeEmExternalImage.jsp",'wxNodeEmExternalImage','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeEmInternalImage_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeEmInternalImage.jsp",'Custom_JSP','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeEmImageSlideshow_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeEmImageSlideshow.jsp",'Custom_JSP','width=' + 480 + ',height=' + 600 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeVideo_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeVideo.jsp",'Custom_JSP','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeCoveritLive_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeCoveritLive.jsp",'Custom_JSP','width=' + 600 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeYouTube_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeYouTube.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeTwitter_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeTwitter.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeStorify_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeStorify.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeGoogleMaps_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeGoogleMaps.jsp",'Custom_JSP','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeScreenR_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeScreenR.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeScreenCast_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeScreenCast.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeTwitterTimeline_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeTwitterTimeline.jsp",'Custom_JSP','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeSoundCloud_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeSoundCloud.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeInPartnership_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeInPartnership.jsp",'Custom_JSP','width=' + 480 + ',height=' + 800 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodePullQuote_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodePullQuote.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodePageBreak_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodePageBreak.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>
+
+<![CDATA[
+   function wxNodeResource_]]><xsl:value-of select="$name"/><![CDATA[(){
+	//Open a new browser window with the properties defined
+	var remote = window.open("/Rhythmyx/custom/wxNodeResource.jsp",'Custom_JSP','width=' + 480 + ',height=' + 400 +',status=yes,resizable=no,scrollbars=no,location=no,toolbar=no');
+   }
+]]>

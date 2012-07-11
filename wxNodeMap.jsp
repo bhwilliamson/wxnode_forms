@@ -26,7 +26,9 @@
 					var allInputNameValuePairs = '';
 					//Get text fields
 					$('input:text').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						var input_name = $(this).attr("name");
+						if (input_name && input_name.indexOf('link_') == -1)
+							allInputNameValuePairs += input_name + '="' + $(this).val() + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -34,6 +36,16 @@
 							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 						}
 					});
+					//Build links
+					var links_txt = '';
+					for (var i=1; i<=6; i++) {
+						var curr_link = $('#link_' + i + '_path');
+						var curr_txt = $('#link_' + i + '_text');
+						if (curr_link.length && curr_txt.length) {
+							links_txt += '<a href=\'' + curr_link.val() + '\'>' + curr_txt.val() + '</a>';
+						}
+					}
+					allInputNameValuePairs += 'links="' + links_txt + '" ';
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
