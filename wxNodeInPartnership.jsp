@@ -36,13 +36,20 @@
 							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 						}
 					});
+					//Get select options
+					$('select').each(function(n,element) {
+						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+					});					
 					//Build links
 					var links_txt = '';
 					for (var i=1; i<=6; i++) {
 						var curr_link = $('#link_' + i + '_path');
 						var curr_txt = $('#link_' + i + '_text');
+						if (i > 1) {
+							link_txt += ',';
+						}
 						if (curr_link.length && curr_txt.length) {
-							links_txt += '<a href=\'' + curr_link.val() + '\'>' + curr_txt.val() + '</a>';
+							links_txt += curr_txt.val() + '::' + curr_link.val();
 						}
 					}
 					allInputNameValuePairs += 'partnerlinks="' + links_txt + '" ';					
@@ -50,6 +57,18 @@
 					//close the JSP page
 					window.close();
 				});
+				
+				$.ajax({
+					url: '../twcProviderLookup/providerIds',
+					success: function(data, status) {
+						updateProviderField(data);
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						alert("Failure getting provider IDs: " + errorThrown);
+					},
+					type: "get",
+					dataType: "xml"
+				});				
 			});
 			var numLinks = 2;
 			function addLinkFields(link) {
@@ -59,6 +78,33 @@
 				if (numLinks >= 6) {
 					$('#insertbefore').attr('style', 'display:none');
 				}
+			}
+			
+			function updateProviderField(data) {
+				var select = document.forms[0].elements['providerid'];
+				var items = jQuery(data).find("PSXEntry").get();
+				var selectedValue = select.options[select.selectedIndex].value;
+				var emptyValue;
+				select.options.length=0;
+
+				auxArr = [];
+
+				for (i = 0; i < items.length; i++) {
+				    var value = items[i].getElementsByTagName("Value")[0].childNodes[0].nodeValue;
+				    var displayText = items[i].getElementsByTagName("PSXDisplayText")[0].childNodes[0].nodeValue;
+				    var isSelected = "";
+				    if (value == selectedValue) {
+					isSelected = "selected='selected'";
+				    }
+				    auxArr[i] = "<option value='" + value + "' " + isSelected + ">" + displayText + "</option>";
+
+				}
+
+				//Attempt the faster, if IE and it fails, do the slower
+				select.innerHTML =auxArr.join('');
+				if (select.innerHTML == "") {
+					jQuery(select).append(auxArr.join(''));	
+				}				
 			}			
 		</script>
 	</head>
@@ -74,7 +120,13 @@
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="providerid">Provider Id:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="providerid" name="providerid" type="text" value="" /></td>
+                      		<td>
+                      			<select id="providerid" name="providerid">
+                      				<option value="loading">Loading</option>
+					</select>                      		
+                      		</td>
+<%--                      		<input class="datadisplay required" size="50" id="providerid" name="providerid" type="text" value="" />
+--%>
                       	</tr>
                       	</tr>
                       	<tr>

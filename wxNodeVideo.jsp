@@ -76,6 +76,9 @@
 					$('#position_right').attr('disabled', false);
 					$('#bcplayerkey').val('AQ~~,AAAAAAQxtuk~,N9g8AotC12flp8PmRxlLqTu0V7oMP9Ia');
 					$('#bcplayerid').val('1543561927001');
+					$('#forceautoplay').val('false');
+					$('#autoplay').val('false');
+					$('#primary').val('false');
 				}
 				else if (radio.value == '4' && radio.checked) {
 					$('#position_left').attr('disabled', true);
