@@ -161,7 +161,7 @@
 			</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="class">Class:</label></td>
-                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" tabindex="0" value="singleimage" readonly/></td>
+                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" value="singleimage" readonly/></td>
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="type">Type:</label></td>
