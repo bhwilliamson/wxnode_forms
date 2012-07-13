@@ -41,10 +41,10 @@
 					for (var i=1; i<=6; i++) {
 						var curr_link = $('#link_' + i + '_path');
 						var curr_txt = $('#link_' + i + '_text');
-						if (i > 1) {
-							link_txt += ',';
-						}
 						if (curr_link.length && curr_txt.length) {
+							if (i > 1) {
+								links_txt += ',';
+							}						
 							links_txt += curr_txt.val() + '::' + curr_link.val();
 						}
 					}

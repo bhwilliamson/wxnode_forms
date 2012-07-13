@@ -25,37 +25,35 @@
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
 					//Get text fields
+					var video_fld = 'videos="class=video';
 					$('input:text').each(function(n,element) {
 						if ($(this).attr('name') == 'videos') {
-							var videoType = $('input[name=videos_type]:checked', '#embed_video').val()
-							if (videoType == 'single') {
-								var nameValPair = 'videos="class=video;q=clip:'	+ $(this).val() + '" ';
-								allInputNameValuePairs += nameValPair;
-							}
-							else if (videoType == 'multiple') {
-								var ids = $(this).val();
-								var idsAry = ids.split(",");
-								allInputNameValuePairs += 'videos="class=video;q=';
-								var isFirst = true;
-								for (var i = 0; i < idsAry.length; i++) {
+							var ids = $(this).val();
+							var idsAry = ids.split(",");
+							var isFirst = true;
+							for (var i = 0; i < idsAry.length; i++) {
+								var id = $.trim(idsAry[i]);
+								if (id != "") {
 									if (!isFirst) {
-										allInputNameValuePairs += ',';
+										video_fld += ',';
 									}
-									var id = $.trim(idsAry[i]);
-									allInputNameValuePairs += 'clip:' + id;
+									else {
+										video_fld += ';q=';
+									}
+									video_fld += 'clip:' + id;
 									isFirst = false;
 								}
-								allInputNameValuePairs += '" ';
 							}
-							else if (videoType == 'collection') {
-								var nameValPair = 'videos="class=video;q=coll:'	+ $(this).val() + '" ';
-								allInputNameValuePairs += nameValPair;
-							}
+						}
+						else if ($(this).attr('name') == 'collection' && $(this).val() != "") {
+							video_fld += ';q=coll:'	+ $(this).val();
 						}
 						else {
 							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 						}
 					});
+					video_fld += '" ';
+					allInputNameValuePairs += video_fld;
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
 						if($(this).attr('name') == 'videos_type' && $(this).attr("checked") == "checked") {
@@ -85,16 +83,50 @@
 					$('#position_right').attr('disabled', true);
 					$('#bcplayerkey').val('AQ~~,AAAAAAQxtuk~,N9g8AotC12eobrWkZvrqKiXxOtGg-8h1');
 					$('#bcplayerid').val('1543561897001');
+					$('#forceautoplay').val('false');
+					$('#autoplay').val('true');
+					$('#primary').val('true');					
 				}
 			}
-			function onVideoTypeChange(radio) {
-				if (radio.value == 'multiple' || radio.value == 'collection') {
-					$('#showplaylist_yes').attr('checked', 'checked');
-				}
-				else {
+			function onVideoIdBlur() {
+				var ids = $('#videos').val();
+				var idsAry = ids.split(",");
+				if (idsAry && idsAry.length <= 1) {
 					$('#showplaylist_no').attr('checked', 'checked');
 				}
+				else {
+					$('#showplaylist_yes').attr('checked', 'checked');
+				}
 			}
+			
+			function validateVideoFields() {
+				var retVal = validateTextFields();
+				var normalClass = "controlname";
+				var errorClass = "controlnameerror";
+				var video_ids = $('#videos').val();
+				var collection_id = $('#collection').val();
+				var videosParent = $('label[for=videos]').parent();
+				var collectionParent = $('label[for=collection]').parent();
+				if (video_ids == "" && collection_id == "") {
+					videosParent.removeClass(normalClass);
+					collectionParent.removeClass(normalClass);
+					videosParent.addClass(errorClass);
+					collectionParent.addClass(errorClass);
+					var errorMsgs = $('#error_messages')
+					errorMsgs.html(errorMsgs.html() + "<p>Either Videos (IDs) or Collection (ID) are required</p>");
+					retVal = false;
+				}
+				else {
+					videosParent.removeClass(errorClass);
+					collectionParent.removeClass(errorClass);
+					videosParent.addClass(normalClass);
+					collectionParent.addClass(normalClass);
+					if (retVal) {
+						$('#error_messages').html("");
+					}
+				}
+				return retVal;
+			}			
 		</script>
 	</head>
 	<body>
@@ -126,16 +158,12 @@
                              	</td>
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="videos_type">Videos (ID):</label></td>
-                      		<td>
-                      			<input class="datadisplay" type="radio" id="videos_single" name="videos_type" value="single" checked="checked" onChange="onVideoTypeChange(this)"/><span class="controlname">single video</span>
-                      			<input class="datadisplay" type="radio" id="videos_multiple" name="videos_type" value="multiple"  onChange="onVideoTypeChange(this)"/><span class="controlname">multiple videos</span>
-                      			<input class="datadisplay" type="radio" id="videos_collection" name="videos_type" value="collection"  onChange="onVideoTypeChange(this)"/><span class="controlname">collection</span><br/>
-                      		</td>
+                      		<td class="controlname"><label for="videos">Videos (IDs):</label></td>
+				<td><input class="datadisplay" type="text" id="videos" name="videos" size="50" value="" onblur="onVideoIdBlur()"/></td>
                       	</tr>
                       	<tr>
-                      		<td></td>
-                      		<td><span class="controlname"><label for="videos">Video Id(s):</label></span><input class="datadisplay required" size="50" id="videos" name="videos" type="text" value="" /></td>
+				<td class="controlname"><label for="collection">Collection (ID):</label></td>
+                      		<td><input class="datadisplay" type="text" id="collection" name="collection" size="50" value=""/></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="showheadline">Show Headline:</label></td>
@@ -171,7 +199,7 @@
 <!-- Begin Collapsable Region -->
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="class">Class:</label></td>
-                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" tabindex="0" value="corsican-video" readonly/></td>
+                      		<td><input class="datadisplay" size="50" id="class" name="class" type="text" value="corsican-video" readonly/></td>
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="inpage">In Page:</label></td>
@@ -195,7 +223,7 @@
                       	</tr>
                       	<tr>
                       		<td align="center" class="headercell2" colspan="2">
-                      			<button type="submit" name="submit" onclick="return validateTextFields()">Submit</button>
+                      			<button type="submit" name="submit" onclick="return validateVideoFields()">Submit</button>
                       		</td>
                       	</tr>
 		</table>
