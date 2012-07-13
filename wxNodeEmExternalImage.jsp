@@ -44,7 +44,8 @@
 					for (var i=1; i<=6; i++) {
 						var curr_link = $('#topic_' + i + '_link');
 						var curr_txt = $('#topic_' + i + '_text');
-						if (curr_link.length && curr_txt.length) {
+						if (curr_link.length && curr_link.val() != "" && 
+							curr_txt.length && curr_txt.val() != "") {
 							if (i > 1) {
 								links_txt += ',';
 							}												
@@ -107,7 +108,7 @@
                       		<td><input class="datadisplay required" size="50" id="link" name="link" type="text"/></td>
                       	</tr>
                         <tr>
-				<td class="controlname"><label for="synopsis">Description(Desktop):</label></td>
+				<td class="controlname"><label for="synopsis">Description (Desktop):</label></td>
 				<td><textarea rows="6" cols="45" id="synopsis" name="synopsis"></textarea></td>
                         </tr>
 <%--

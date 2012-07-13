@@ -45,7 +45,8 @@
 					for (var i=1; i<=6; i++) {
 						var curr_link = $('#link_' + i + '_path');
 						var curr_txt = $('#link_' + i + '_text');
-						if (curr_link.length && curr_txt.length) {
+						if (curr_link.length && curr_link.val() != "" && 
+							curr_txt.length && curr_txt.val() != "") {
 							if (i > 1) {
 								links_txt += ',';
 							}						
