@@ -53,13 +53,13 @@
                       		<td><input class="datadisplay required" size="50" id="class" name="class" type="text" tabindex="0" value="slideshow" readonly/></td>
                       	</tr>
                       	<tr>                      	
+                      		<td class="controlname"><label for="title">Title:</label></td>
+                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text"/></td>
+                      	</tr>                        	                      	
+                      	<tr>                      	
                       		<td class="controlname"><label for="collectionid">Collection ID:</label></td>
                       		<td><input class="datadisplay required" size="50" id="collectionid" name="collectionid" type="text"/></td>
                       	</tr>
-                      	<tr>                      	
-                      		<td class="controlname"><label for="title">Title:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text"/></td>
-                      	</tr>                        	
                       	<tr>                      	
                       		<td class="controlname"><label for="sizecode">Size Code:</label></td>
                       		<td>

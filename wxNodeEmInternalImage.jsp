@@ -170,7 +170,7 @@
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="clicksizecode">Click Size Code:</label></td>
-                      		<td><input class="datadisplay" size="50" id="clicksizecode" name="clicksizecode" type="text" value=""/></td>
+                      		<td><input class="datadisplay" size="50" id="clicksizecode" name="clicksizecode" type="text" value="Lead 16:9"/></td>
                       	</tr>                      	
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="captionoverride">Caption Override:</label></td>
