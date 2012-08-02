@@ -28,7 +28,7 @@
 					$('input:text').each(function(n,element) {
 						var input_name = $(this).attr("name");
 						if (input_name && input_name.indexOf('link_') == -1)
-							allInputNameValuePairs += input_name + '="' + $(this).val() + '" ';
+							allInputNameValuePairs += input_name + '="' + cleanValue($(this).val()) + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -46,7 +46,7 @@
 							if (i > 1) {
 								links_txt += ',';
 							}						
-							links_txt += curr_txt.val() + '::' + curr_link.val();
+							links_txt += cleanValue(curr_txt.val()) + '::' + curr_link.val();
 						}
 					}
 					allInputNameValuePairs += 'links="' + links_txt + '" ';

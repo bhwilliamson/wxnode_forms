@@ -29,7 +29,7 @@
 					$('input:text').each(function(n,element) {
 						var input_name = $(this).attr("name");
 						if (input_name && input_name.indexOf('topic_') == -1)
-							allInputNameValuePairs += input_name + '="' + $(this).val() + '" ';
+							allInputNameValuePairs += input_name + '="' + cleanValue($(this).val()) + '" ';
 						if (input_name == 'articleurl' && $(this).val() != '') {
 							clickable = 'clickable="yes"';
 						}
@@ -46,7 +46,7 @@
 					});
 					//Get text area
 					$('textarea').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						allInputNameValuePairs += $(this).attr("name") + '="' + cleanValue($(this).val()) + '" ';
 					});
 					//Build links					
 					var links_txt = '';
@@ -58,7 +58,7 @@
 							if (i > 1) {
 								links_txt += ',';
 							}						
-							links_txt += curr_txt.val() + '::' + curr_link.val();							
+							links_txt += cleanValue(curr_txt.val()) + '::' + curr_link.val();							
 						}
 					}
 					allInputNameValuePairs += 'links="' + links_txt + '" ';

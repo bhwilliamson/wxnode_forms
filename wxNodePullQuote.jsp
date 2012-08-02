@@ -25,7 +25,7 @@
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
 					$('input:text').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						allInputNameValuePairs += $(this).attr("name") + '="' + cleanValue($(this).val()) + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -33,11 +33,12 @@
 							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 						}
 					});
+					//alert(allInputNameValuePairs);
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
 				});
-			});
+			});			
 		</script>
 	</head>
 	<body>

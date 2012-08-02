@@ -26,7 +26,7 @@
 					var allInputNameValuePairs = '';
 					//Get text fields
 					$('input:text').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						allInputNameValuePairs += $(this).attr("name") + '="' + cleanValue($(this).val()) + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {

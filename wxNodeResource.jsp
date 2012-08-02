@@ -25,7 +25,7 @@
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
 					$('input:not(:button)').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+						allInputNameValuePairs += $(this).attr("name") + '="' + cleanValue($(this).val()) + '" ';
 					});
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page

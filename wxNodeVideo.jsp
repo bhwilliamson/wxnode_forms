@@ -50,7 +50,7 @@
 							coll_ids += 'class=video;q=coll:' + $(this).val();
 						}
 						else {
-							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
+							allInputNameValuePairs += $(this).attr("name") + '="' + cleanValue($(this).val()) + '" ';
 						}
 					});
 					var video_fld = 'videos="' + video_ids;
