@@ -54,7 +54,7 @@
                       	</tr>
                       	<tr>                      	
                       		<td class="controlname"><label for="title">Title:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text"/></td>
+                      		<td><input class="datadisplay" size="50" id="title" name="title" type="text"/></td>
                       	</tr>                        	                      	
                       	<tr>                      	
                       		<td class="controlname"><label for="collectionid">Collection ID:</label></td>
@@ -63,23 +63,26 @@
                       	<tr>                      	
                       		<td class="controlname"><label for="sizecode">Size Code:</label></td>
                       		<td>
-					<input class="datadisplay required" type="radio" id="sizecode_lead" name="sizecode" value="16:9 Lead" checked="checked"/><span class="controlname">16:9 Lead</span>
-					<input class="datadisplay" type="radio" id="sizecode_immersive" name="sizecode" value="16:9 Immersive"/><span class="controlname">16:9 Immersive</span><br/>                      		
+					<input class="datadisplay required" type="radio" id="sizecode_lead" name="sizecode" value="10" checked="checked"/><span class="controlname">16:9 Lead</span>
+					<input class="datadisplay" type="radio" id="sizecode_immersive" name="sizecode" value="12"/><span class="controlname">16:9 Immersive</span><br/>                      		
 				</td>
                       	</tr> 
-                      	<tr>                      	
+			<tr>
+				<td colspan="2"><a href="#" onclick="toggleCollapse(this);return false;"><img src="<%= root %>/rx_resources/images/plus.gif"/>Show More</a></td>
+			</tr>                      	
+                      	<tr class="hide-row">                      	
                       		<td class="controlname"><label for="refreshPageViewBeacon">Refresh Page View Beacon:</label></td>
                       		<td><input class="datadisplay" size="50" id="refreshPageViewBeacon" name="refreshPageViewBeacon" type="text" value="true"/></td>
                       	</tr> 
-                      	<tr>                      	
+                      	<tr class="hide-row">                      	
                       		<td class="controlname"><label for="refreshPageViewBeaconNSlides">Refresh Page View Beacon After N Slides:</label></td>
                       		<td><input class="datadisplay" size="50" id="refreshPageViewBeaconNSlides" name="refreshPageViewBeaconNSlides" type="text" value="1"/></td>
                       	</tr> 
-                      	<tr>                      	
+                      	<tr class="hide-row">                      	
                       		<td class="controlname"><label for="refreshAds">Refresh Ads:</label></td>
                       		<td><input class="datadisplay" size="50" id="refreshAds" name="refreshAds" type="text" value="false"/></td>
                       	</tr> 
-                      	<tr>                      	
+                      	<tr class="hide-row">                      	
                       		<td class="controlname"><label for="refreshADsAfterNSlides">Refresh Ads After N Slides:</label></td>
                       		<td><input class="datadisplay" size="50" id="refreshADsAfterNSlides" name="refreshADsAfterNSlides" type="text" value="3"/></td>
                       	</tr>                       	

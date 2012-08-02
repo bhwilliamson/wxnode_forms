@@ -59,12 +59,25 @@
 				if ((radio.id == 'sizecode_inset_43' || radio.id == 'sizecode_inset_169') && radio.checked) {
 					$('#align_left').attr('disabled', false);
 					$('#align_right').attr('disabled', false);
+					onEnlargeChange();
 				}
 				else if ((radio.id == 'sizecode_lead_43' || radio.id == 'sizecode_lead_169') && radio.checked) {
 					$('#align_left').attr('disabled', true);
 					$('#align_right').attr('disabled', true);
+					$('#enlarge_no').attr('checked', 'checked');
+					$('#enlarged_size_code').val('');
 				}
 				$('#clicksizecode').val($(radio).val());
+			}
+			function onEnlargeChange() {
+				if ($('#enlarge_yes').attr('checked') == 'checked') {
+					if ($('#sizecode_inset_43').attr('checked') == 'checked') {
+						$('#enlarged_size_code').val($('#sizecode_lead_43').val());
+					}
+					if ($('#sizecode_inset_169').attr('checked') == 'checked') {
+						$('#enlarged_size_code').val($('#sizecode_lead_169').val());
+					}
+				}
 			}
 			var numLinks = 2;
 			function addLinkFields(link) {
@@ -91,15 +104,15 @@
                       	<tr>
                       		<td class="controlname"><label for="sizecode">Size Code:</label></td>
                       		<td>
-					<input class="datadisplay required" type="radio" id="sizecode_lead_43" name="sizecode" value="4:3 Lead" checked="checked" onChange="onSizeChange(this)"/><span class="controlname">4:3 Lead</span>
-					<input class="datadisplay required" type="radio" id="sizecode_lead_169" name="sizecode" value="16:9 Lead" onChange="onSizeChange(this)"/><span class="controlname">16:9 Lead</span>
-					<input class="datadisplay required" type="radio" id="sizecode_inset_43" name="sizecode" value="4:3 Inset" onChange="onSizeChange(this)"/><span class="controlname">4:3 Inset</span>
-					<input class="datadisplay required" type="radio" id="sizecode_inset_169" name="sizecode" value="16:9 Inset" onChange="onSizeChange(this)"/><span class="controlname">16:9 Inset</span><br/>
+					<input class="datadisplay required" type="radio" id="sizecode_lead_43" name="sizecode" value="28" checked="checked" onclick="onSizeChange(this)"/><span class="controlname">4:3 Lead</span>
+					<input class="datadisplay required" type="radio" id="sizecode_lead_169" name="sizecode" value="48" onclick="onSizeChange(this)"/><span class="controlname">16:9 Lead</span>
+					<input class="datadisplay required" type="radio" id="sizecode_inset_43" name="sizecode" value="23" onclick="onSizeChange(this)"/><span class="controlname">4:3 Inset</span>
+					<input class="datadisplay required" type="radio" id="sizecode_inset_169" name="sizecode" value="46" onclick="onSizeChange(this)"/><span class="controlname">16:9 Inset</span><br/>
                       		</td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="clicksizecode">Click Size Code:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="clicksizecode" name="clicksizecode" type="text" value="4:3 Lead"/></td>
+                      		<td><input class="datadisplay required" size="50" id="clicksizecode" name="clicksizecode" type="text" value="28"/></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="align">Align:</label></td>
@@ -144,10 +157,13 @@
 --%>
                       	<tr>
                       		<td class="controlname"><label for="enlarge">Enlarge:</label></td>
-                      		<td><input class="datadisplay" size="50" id="enlarge" name="enlarge" type="text" value="no"/></td>
+                      		<td>
+					<input class="datadisplay" type="radio" id="enlarge_yes" name="enlarge" value="yes" onclick="onEnlargeChange()"/><span class="controlname">Yes</span>
+					<input class="datadisplay" type="radio" id="enlarge_no" name="enlarge" value="no" checked="checked" onclick="onEnlargeChange()"/><span class="controlname">No</span><br/>
+                      		</td>                      		
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="enlarged_size_code">Enlarge Size Code:</label></td>
+                      		<td class="controlname"><label for="enlarged_size_code">Enlarge Size Code:</label></td>                      		
                       		<td><input class="datadisplay" size="50" id="enlarged_size_code" name="enlarged_size_code" type="text" value=""/></td>
                       	</tr>
                       	<tr>

@@ -25,10 +25,18 @@
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
 					//Get text fields
+					var clickable = 'clickable="no"';
 					$('input:text').each(function(n,element) {
 						var input_name = $(this).attr("name");
 						if (input_name && input_name.indexOf('topic_') == -1)
 							allInputNameValuePairs += input_name + '="' + $(this).val() + '" ';
+						if (input_name == 'articleurl' && $(this).val() != '') {
+							clickable = 'clickable="yes"';
+						}
+					});
+					//Get hidden fields
+					$('input:hidden').each(function(n,element) {
+						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 					});
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -40,7 +48,7 @@
 					$('textarea').each(function(n,element) {
 						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 					});
-					//Build links
+					//Build links					
 					var links_txt = '';
 					for (var i=1; i<=6; i++) {
 						var curr_link = $('#topic_' + i + '_link');
@@ -50,10 +58,11 @@
 							if (i > 1) {
 								links_txt += ',';
 							}						
-							links_txt += curr_txt.val() + '::' + curr_link.val();
+							links_txt += curr_txt.val() + '::' + curr_link.val();							
 						}
 					}
 					allInputNameValuePairs += 'links="' + links_txt + '" ';
+					allInputNameValuePairs += clickable + ' ';
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
@@ -61,11 +70,14 @@
 			});
 			
 			function onSizeChange(radio) {
-				if (radio.value.indexOf('Inset') != -1 && radio.checked) {
+				if (radio.id.indexOf('inset') != -1 && radio.checked) {
 					$('#align_left').attr('disabled', false);
 					$('#align_right').attr('disabled', false);
+					if ($('#align_left').attr('checked') != 'checked' && $('#align_right').attr('checked') != 'checked') {
+						$('#align_left').attr('checked', 'checked');
+					}					
 				}
-				else if (radio.value.indexOf('Lead') != -1 && radio.checked) {
+				else if (radio.id.indexOf('lead') != -1 && radio.checked) {
 					$('#align_left').attr('disabled', true);
 					$('#align_right').attr('disabled', true);
 				}
@@ -91,10 +103,11 @@
                       	<tr>
                       		<td class="controlname"><label for="sizecode">Size Code:</label></td>
                       		<td>
-					<input class="datadisplay" type="radio" id="sizecode_lead_16:9" name="sizecode" value="Lead 16:9" checked="checked" onChange="onSizeChange(this)"/><span class="controlname">Lead 16:9</span>
-					<input class="datadisplay" type="radio" id="sizecode_inset_16:9" name="sizecode" value="Inset 16:9" onChange="onSizeChange(this)"/><span class="controlname">Inset 16:9</span>
-					<input class="datadisplay" type="radio" id="sizecode_vertical_lead" name="sizecode" value="Vertical Lead" onChange="onSizeChange(this)"/><span class="controlname">Vertical Lead</span>
-					<input class="datadisplay" type="radio" id="sizecode_vertical_inset" name="sizecode" value="Vertical Inset" onChange="onSizeChange(this)"/><span class="controlname">Vertical Inset</span><br/>
+					<input class="datadisplay" type="radio" id="sizecode_lead_16:9" name="sizecode" value="10" checked="checked" onclick="onSizeChange(this)"/><span class="controlname">Lead 16:9</span>
+					<input class="datadisplay" type="radio" id="sizecode_inset_16:9" name="sizecode" value="8" onclick="onSizeChange(this)"/><span class="controlname">Inset 16:9</span>
+					<input class="datadisplay" type="radio" id="sizecode_vertical_lead" name="sizecode" value="13" onclick="onSizeChange(this)"/><span class="controlname">Vertical Lead</span>
+					<input class="datadisplay" type="radio" id="sizecode_vertical_inset" name="sizecode" value="14" onclick="onSizeChange(this)"/><span class="controlname">Vertical Inset</span><br/>
+					<input class="datadisplay" size="50" id="clicksizecode" name="clicksizecode" type="hidden" value="10"/>
                             	</td>
                       	</tr>
                       	<tr>
@@ -110,7 +123,7 @@
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="credit">Provider:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="credit" name="credit" type="text" value=""/></td>
+                      		<td><input class="datadisplay" size="50" id="credit" name="credit" type="text" value=""/></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="alt">Alt:</label></td>
@@ -122,12 +135,11 @@
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="link">Link:</label></td>
-                      		<td><input class="datadisplay" size="50" id="link" name="link" type="text" value=""/></td>
+                      		<td><input class="datadisplay" size="50" id="articleurl" name="articleurl" type="text" value=""/></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="synopsis">Description:</label></td>
                       		<td><textarea rows="6" cols="45" id="synopsis" name="synopsis"></textarea></td>
-                      		<!--<td><input class="datadisplay" size="50" id="synopsis" name="synopsis" type="text" value=""/></td>-->
                       	</tr>
 <%--
                       	<tr>
@@ -167,18 +179,17 @@
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="type">Type:</label></td>
                       		<td><input class="datadisplay" size="50" id="type" name="type" type="text" value="internalasset" readonly/></td>
-                      	</tr>
-                      	<tr class="hide-row">
-                      		<td class="controlname"><label for="clicksizecode">Click Size Code:</label></td>
-                      		<td><input class="datadisplay" size="50" id="clicksizecode" name="clicksizecode" type="text" value="Lead 16:9"/></td>
-                      	</tr>                      	
+                      	</tr>                     	
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="captionoverride">Caption Override:</label></td>
                       		<td><input class="datadisplay" size="50" id="captionoverride" name="captionoverride" type="text"/></td>
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="showcaption">Show Caption:</label></td>
-                      		<td><input class="datadisplay" size="50" id="showcaption" name="showcaption" type="text" value="no"/></td>
+                      		<td>
+					<input class="datadisplay" type="radio" id="showcaption_yes" name="showcaption" value="yes"/><span class="controlname">Yes</span>
+					<input class="datadisplay" type="radio" id="showcaption_no" name="showcaption" value="no" checked="checked"/><span class="controlname">No</span><br/>                      		
+				</td>
                       	</tr>
                       	<tr>
                       		<td align="center" class="headercell2" colspan="2">

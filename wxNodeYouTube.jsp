@@ -75,8 +75,8 @@
                       	<tr>
                       		<td class="controlname"><label for="allowfullscreen">Allow Fullscreen:</label></td>
 				<td>
-					<input class="datadisplay" type="radio" id="allowfullscreen_yes" name="allowfullscreen" value="Yes" checked="checked"/><span class="controlname">Yes</span>
-					<input class="datadisplay" type="radio" id="allowfullscreen_no" name="allowfullscreen" value="No"/><span class="controlname">No</span><br/>
+					<input class="datadisplay" type="radio" id="allowfullscreen_yes" name="allowfullscreen" value="true" checked="checked"/><span class="controlname">Yes</span>
+					<input class="datadisplay" type="radio" id="allowfullscreen_no" name="allowfullscreen" value="false"/><span class="controlname">No</span><br/>
                              </td>
                       	</tr>
                       	<tr>

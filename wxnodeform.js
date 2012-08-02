@@ -16,6 +16,12 @@ function toggleCollapse(link) {
 
 }
 
+function cleanTextFieldValue(value) {
+	if (value) {
+		value.replace("\"", "&quot;");
+	}
+}
+
 function validateTextFields() {
 	var retVal = true;
 	var normalClass = "controlname";
@@ -27,11 +33,12 @@ function validateTextFields() {
 	});
 
 	var hasIllegalChars = false;
-	var illegalCharListItems = "<p>The following fields have illegal characters.  The characters < > \" ' & are not allowed: <ul>";
+/*	
+	var illegalCharListItems = "<p>The characters < > \" ' & are not allowed.  Please replace them with appropriate entities.<br/>&amp;apos; = '<br/>&amp;quot; = \"<br/>&amp;amp; = &<br/>&amp;lt; = <<br/>&amp;gt; = ><br/>  The following fields have illegal characters and must be fixed: <ul>";
 	$('input:text').each(function(n,element) {
 		var label = $('label[for='+element.id+']');
 		var parent = label.parent();
-		var illegalCharsAry = $(element).val().match("[><\"'&]");
+		var illegalCharsAry = $(element).val().match("[><\"']");
 		if (illegalCharsAry && illegalCharsAry.length > 0) {
 			retVal = false;
 			hasIllegalChars = true;
@@ -43,7 +50,7 @@ function validateTextFields() {
 	$('textarea').each(function(n,element) {
 		var label = $('label[for='+element.id+']');
 		var parent = label.parent();
-		var illegalCharsAry = $(element).val().match("[><\"'&]");
+		var illegalCharsAry = $(element).val().match("[><\"']");
 		if (illegalCharsAry && illegalCharsAry.length > 0) {
 			retVal = false;
 			hasIllegalChars = true;
@@ -57,6 +64,7 @@ function validateTextFields() {
 		var errorMsgs = $('#error_messages');
 		errorMsgs.html(errorMsgs.html() + illegalCharListItems);
 	}
+*/
 
 	var missingRequiredFields = false;
 	var valListItems = "<p>The following fields are required: <ul>";

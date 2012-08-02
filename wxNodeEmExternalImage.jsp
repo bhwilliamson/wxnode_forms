@@ -97,15 +97,15 @@
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="alt">Alt:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="alt" name="alt" type="text"/></td>
+                      		<td><input class="datadisplay" size="50" id="alt" name="alt" type="text"/></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="title">Title:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text"/></td>
+                      		<td><input class="datadisplay" size="50" id="title" name="title" type="text"/></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="link">Link:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="link" name="link" type="text"/></td>
+                      		<td><input class="datadisplay" size="50" id="link" name="link" type="text"/></td>
                       	</tr>
                         <tr>
 				<td class="controlname"><label for="synopsis">Description (Desktop):</label></td>

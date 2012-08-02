@@ -24,8 +24,9 @@
 				//opener is a reference to the content editor page, which gives you access to all global javascript variables
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
-					//Get text fields
-					var video_fld = 'videos="class=video';
+					//Get text fields					
+					var video_ids = '';
+					var coll_ids = '';
 					$('input:text').each(function(n,element) {
 						if ($(this).attr('name') == 'videos') {
 							var ids = $(this).val();
@@ -35,24 +36,28 @@
 								var id = $.trim(idsAry[i]);
 								if (id != "") {
 									if (!isFirst) {
-										video_fld += ',';
+										video_ids += ',';
 									}
 									else {
-										video_fld += ';q=';
+										video_ids += 'class=video;q=';
 									}
-									video_fld += 'clip:' + id;
+									video_ids += 'clip:' + id;
 									isFirst = false;
 								}
 							}
 						}
 						else if ($(this).attr('name') == 'collection' && $(this).val() != "") {
-							video_fld += ';q=coll:'	+ $(this).val();
+							coll_ids += 'class=video;q=coll:' + $(this).val();
 						}
 						else {
 							allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 						}
 					});
-					video_fld += '" ';
+					var video_fld = 'videos="' + video_ids;
+					if (video_ids != '' && coll_ids != '') {
+						video_fld += '|';
+					}					
+					video_fld += coll_ids += '" ';
 					allInputNameValuePairs += video_fld;
 					//Get radio buttons
 					$('input:radio').each(function(n,element) {
@@ -68,24 +73,28 @@
 					window.close();
 				});
 			});
-			function onGridSizeChange(radio) {
-				if (radio.value == '2' && radio.checked) {
+			function onGridSizeChange() {
+				
+				if ($('#gridsize_inset').attr('checked') == 'checked') {
 					$('#position_left').attr('disabled', false);
 					$('#position_right').attr('disabled', false);
+					if ($('#position_left').attr('checked') != 'checked' && $('#position_right').attr('checked') != 'checked') {
+						$('#position_left').attr('checked', 'checked');	
+					}					
 					$('#bcplayerkey').val('AQ~~,AAAAAAQxtuk~,N9g8AotC12flp8PmRxlLqTu0V7oMP9Ia');
 					$('#bcplayerid').val('1543561927001');
-					$('#forceautoplay').val('false');
-					$('#autoplay').val('false');
-					$('#primary').val('false');
+					$('#forceautoplay_false').attr('checked', 'checked');
+					$('#autoplay_false').attr('checked', 'checked');
+					$('#primary_false').attr('checked', 'checked');
 				}
-				else if (radio.value == '4' && radio.checked) {
+				else if ($('#gridsize_lead').attr('checked') == 'checked') {
 					$('#position_left').attr('disabled', true);
 					$('#position_right').attr('disabled', true);
 					$('#bcplayerkey').val('AQ~~,AAAAAAQxtuk~,N9g8AotC12eobrWkZvrqKiXxOtGg-8h1');
 					$('#bcplayerid').val('1543561897001');
-					$('#forceautoplay').val('false');
-					$('#autoplay').val('true');
-					$('#primary').val('true');					
+					$('#forceautoplay_false').attr('checked', 'checked');
+					$('#autoplay_true').attr('checked', 'checked');
+					$('#primary_true').attr('checked', 'checked');					
 				}
 			}
 			function onVideoIdBlur() {
@@ -138,8 +147,8 @@
                       	<tr>
 				<td class="controlname"><label for="gridsize">Size:</label></td>
 				<td>
-					<input class="datadisplay" type="radio" name="gridsize" value="4" checked="checked" onChange="onGridSizeChange(this)"/><span class="controlname">lead</span>
-					<input class="datadisplay" type="radio" name="gridsize" value="2" onChange="onGridSizeChange(this)"/><span class="controlname">inset</span><br/>
+					<input class="datadisplay" type="radio" id="gridsize_lead" name="gridsize" value="4" checked="checked" onclick="onGridSizeChange()"/><span class="controlname">lead</span>
+					<input class="datadisplay" type="radio" id="gridsize_inset" name="gridsize" value="2" onclick="onGridSizeChange()"/><span class="controlname">inset</span><br/>
                              	</td>
                         </tr>
                       	<tr style="margin-left:20px;">
@@ -166,31 +175,31 @@
                       		<td><input class="datadisplay" type="text" id="collection" name="collection" size="50" value=""/></td>
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="showheadline">Show Headline:</label></td>
+                      		<td class="controlname"><label for="showheadline">Headline:</label></td>
 				<td>
-					<input class="datadisplay" type="radio" id="showheadline_yes" name="showheadline" value="Yes" checked="checked"/><span class="controlname">Yes</span>
-					<input class="datadisplay" type="radio" id="showheadline_no" name="showheadline" value="No"/><span class="controlname">No</span><br/>
+					<input class="datadisplay" type="radio" id="showheadline_yes" name="showheadline" value="true" checked="checked"/><span class="controlname">Show</span>
+					<input class="datadisplay" type="radio" id="showheadline_no" name="showheadline" value="false"/><span class="controlname">Hide</span><br/>
                              	</td>
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="showplaylist">Show Playlist:</label></td>
+                      		<td class="controlname"><label for="showplaylist">Playlist:</label></td>
 				<td>
-					<input class="datadisplay" type="radio" id="showplaylist_yes" name="showplaylist" value="Yes" checked="checked"/><span class="controlname">Yes</span>
-					<input class="datadisplay" type="radio" id="showplaylist_no" name="showplaylist" value="No"/><span class="controlname">No</span><br/>
+					<input class="datadisplay" type="radio" id="showplaylist_yes" name="showplaylist" value="true" checked="checked"/><span class="controlname">Show</span>
+					<input class="datadisplay" type="radio" id="showplaylist_no" name="showplaylist" value="false"/><span class="controlname">Hide</span><br/>
                              	</td>
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="showdescription">Show Description:</label></td>
+                      		<td class="controlname"><label for="showdescription">Description:</label></td>
 				<td>
-					<input class="datadisplay" type="radio" id="showdescription_show" name="showdescription" value="Show"/><span class="controlname">Show</span>
-					<input class="datadisplay" type="radio" id="showdescription_hide" name="showdescription" value="Hide" checked="checked"/><span class="controlname">Hide</span><br/>
+					<input class="datadisplay" type="radio" id="showdescription_show" name="showdescription" value="true"/><span class="controlname">Show</span>
+					<input class="datadisplay" type="radio" id="showdescription_hide" name="showdescription" value="false" checked="checked"/><span class="controlname">Hide</span><br/>
                              	</td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="showrelatedlinks">Related Links:</label></td>
 				<td>
-					<input class="datadisplay" type="radio" id="showrelatedlinks_show" name="showrelatedlinks" value="Show"/><span class="controlname">Show</span>
-					<input class="datadisplay" type="radio" id="showrelatedlinks_hide" name="showrelatedlinks" value="Hide" checked="checked"/><span class="controlname">Hide</span><br/>
+					<input class="datadisplay" type="radio" id="showrelatedlinks_show" name="showrelatedlinks" value="true"/><span class="controlname">Show</span>
+					<input class="datadisplay" type="radio" id="showrelatedlinks_hide" name="showrelatedlinks" value="false" checked="checked"/><span class="controlname">Hide</span><br/>
                              	</td>                        	
                       	</tr>
 			<tr>
@@ -203,7 +212,10 @@
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="inpage">In Page:</label></td>
-                      		<td><input class="datadisplay" size="50" id="inpage" name="inpage" type="text" value="true" /></td>
+                      		<td>
+                      			<input class="datadisplay" type="radio" id="inpage_true" name="inpage" value="true" checked="checked"/><span class="controlname">True</span>
+					<input class="datadisplay" type="radio" id="inpage_false" name="inpage" value="false" checked="checked"/><span class="controlname">False</span><br/>                      		
+                      		</td>
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="companionadpos">Companion Ads:</label></td>
@@ -211,15 +223,24 @@
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="forceautoplay">Force Autoplay:</label></td>
-                      		<td><input class="datadisplay" size="50" id="forceautoplay" name="forceautoplay" type="text" value="false" /></td>
+                      		<td>
+                      			<input class="datadisplay" type="radio" id="forceautoplay_true" name="forceautoplay" value="true"/><span class="controlname">True</span>
+					<input class="datadisplay" type="radio" id="forceautoplay_false" name="forceautoplay" value="false" checked="checked"/><span class="controlname">False</span><br/>                      		                      		
+                      		</td>
                       	</tr>
                       	<tr class="hide-row">
-                      		<td class="controlname"><label for="autoplay">AutoPlay:</label></td>
-                      		<td><input class="datadisplay" size="50" id="autoplay" name="autoplay" type="text" value="true" /></td>
+                      		<td class="controlname"><label for="autoplay">Autoplay:</label></td>
+                      		<td>
+                      			<input class="datadisplay" type="radio" id="autoplay_true" name="autoplay" value="true" checked="checked"/><span class="controlname">True</span>
+					<input class="datadisplay" type="radio" id="autoplay_false" name="autoplay" value="false"/><span class="controlname">False</span><br/>                      		
+                      		</td>
                       	</tr>
                       	<tr class="hide-row">
                       		<td class="controlname"><label for="primary">Primary:</label></td>
-                      		<td><input class="datadisplay" size="50" id="primary" name="primary" type="text" value="false" /></td>
+                      		<td>
+					<input class="datadisplay" type="radio" id="primary_true" name="primary" value="true" checked="checked"/><span class="controlname">True</span>
+					<input class="datadisplay" type="radio" id="primary_false" name="primary" value="false"/><span class="controlname">False</span><br/>                      		
+				</td>
                       	</tr>
                       	<tr>
                       		<td align="center" class="headercell2" colspan="2">
