@@ -31,49 +31,119 @@
 					//close the JSP page
 					window.close();
 				});
+				
+				//TODO: Add functions as binding to click of input buttons
+				$('#clear').click(function() {
+					clearForm();
+				});
+				$('#load').click(function() {
+					loadResource();
+				});
+				$('#update').click(function() {
+					updateResource();
+				});
+				$('#delete').click(function() {
+					deleteResource();
+				});
+				$('#create').click(function() {
+					createResource();
+				});				
 			});
 
-			function loadExisting() {				
+			function loadResource() {
+				clearMessages();
+				
 				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/get.htm',
+					{resource:$('#resource').val()},
 					function(data) {
 						$('#title').val(data.title);
 						$('#providercode').val(data.providercode);
 						$('#property').val(data.property);
 					});
 
-				$('#submit').attr('style', 'display:none');
+				$('#create').attr('style', 'display:none');
 				$('#update').attr('style', 'display:inline');
 				$('#delete').attr('style', 'display:inline');
 			}
 			
-			function update() {
-				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/update.htm',
-					{id:$('#resource').val()},
+			function deleteResource() {
+				clearMessages();			
+				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/delete.htm',
+					{resource:$('#resource').val()},
 					function(data) {
+						//alert("Delete return: " + data.msg);
 						$('#display_messages').html(data.msg);
 					});
+				clearForm();
+				$('#create').attr('style', 'display:inline');
+				$('#update').attr('style', 'display:none');
+				$('#delete').attr('style', 'display:none');				
+				
 			}
 			
-			function delete() {
-				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/delete.htm',
-					{id:$('#resource').val()},
-					function(data) {
-						$('#display_messages').html(data.msg);
-					});			
-			}
-			
-			function create() {
-				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/update.htm',
-					{
-						id:$('#resource').val(),
-						title:$('#title).val(),
+			function updateResource() {
+				clearMessages();
+				if (!validateTextFields()) {return;}
+				$.ajax({
+				  url: '<%= root %>/user/apps/lfcopencontentwell/update.htm',
+				  dataType: 'json',
+				  data: {
+						resource:$('#resource').val(),
+						title:$('#title').val(),
 						providercode:$('#providercode').val(),
 						property:$('#property').val()
 					},
-					function(data) {
+				  type: "post",
+				  success: function(data, status) {
+				  		//alert("Update return: " + data.msg);
 						$('#display_messages').html(data.msg);
-					});			
+					}
+				});
+			}			
+			
+			function createResource() {
+				clearMessages();				
+				if (!validateTextFields()) {return;}
+				
+				$.ajax({
+				  url: '<%= root %>/user/apps/lfcopencontentwell/create.htm',
+				  dataType: 'json',
+				  data: {
+						resource:$('#resource').val(),
+						title:$('#title').val(),
+						providercode:$('#providercode').val(),
+						property:$('#property').val()
+					},
+				  type: "post",
+				  success: function(data, status) {
+				  		//alert("Create return: " + data.msg);
+						$('#display_messages').html(data.msg);
+					}
+				});
+				
+				$('#create').attr('style', 'display:none');
+				$('#update').attr('style', 'display:inline');
+				$('#delete').attr('style', 'display:inline');				
+			}			
+			
+			function clearForm() {
+				clearMessages();
+				
+				$('#title').val('');
+				$('#providercode').val('');
+				$('#resource').val('');
+				$('#property').val('mobile');
+				
+				$('#create').attr('style', 'display:inline');
+				$('#update').attr('style', 'display:none');
+				$('#delete').attr('style', 'display:none');				
 			}
+			
+			function clearMessages() {
+				$('#display_messages').html('');
+				$('#error_messages').html('');
+			}
+
 		</script>
 	</head>
 	<body>
@@ -99,7 +169,7 @@
                         </tr>
                       	<tr>
                       		<td class="controlname"><label for="resource">Resource Id:</label></td>
-                      		<td><input class="datadisplay" size="34" id="resource" name="resource" type="text" value=""/>&nbsp;<input type="button" value="Load Existing..." onclick="loadExisting();"></input></td>
+                      		<td><input class="datadisplay" size="30" id="resource" name="resource" type="text" value=""/>&nbsp;<input id="load" type="button" value="Load Existing..."></input></td>
                       	</tr>
                       	<tr>
                       		<td class="controlname"><label for="property">Property:</label></td>
@@ -112,9 +182,11 @@
                       	</tr>
                       	<tr>
                       		<td align="center" class="headercell2" colspan="2">
-                      			<button type="submit" name="submit" id="submit" onclick="return validateTextFields()">Submit</button>
-                      			<button style="display: none;" type="submit" name="update" id="update" onclick="return validateTextFields()">Update</button>
-                      			<button style="display: none;" type="submit" name="delete" id="delete">Delete</button>
+                      			<input id="create" type="button" value="Create"></input>
+                      			<input style="display: none;" id="update" type="button" value="Update"></input>
+                      			<input style="display: none;" id="delete" type="button" value="Delete"></input>
+                      			<input id="clear" type="button" value="Clear"></input>
+                      			<button type="submit" name="close" id="close" onclick="window.close();">Insert wxnode</button>
                       		</td>
                       	</tr>
 		</table>
