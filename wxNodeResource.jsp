@@ -15,8 +15,10 @@
 		<script type="text/javascript" src="<%= root %>/sys_resources/js/<%= locale %>/globalErrorMessages.js">;</script>
 		<script type="text/javascript" src="<%= root %>/tmx/tmx.jsp?sys_lang=<%= locale %>">;</script>
 		<script type="text/javascript" src="<%= root %>/rx_resources/js/wxnodeform.js">;</script>
-
+    		<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css " />    		
+    		
 		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js "></script>
 		<script type="text/javascript" >
 			//http://api.jquery.com/ready/
 			$(document).ready(function(){
@@ -47,7 +49,13 @@
 				});
 				$('#create').click(function() {
 					createResource();
+				});
+				
+				$("#resource").autocomplete({
+					source: '<%= root %>/user/apps/lfcopencontentwell/resourceAutocomplete.htm',
+					minLength: 3					
 				});				
+				
 			});
 
 			function loadResource() {
