@@ -67,8 +67,7 @@
 					//close the JSP page
 					window.close();
 				});
-			});
-			
+			});			
 			function onSizeChange(radio) {
 				if (radio.id.indexOf('inset') != -1 && radio.checked) {
 					$('#align_left').attr('disabled', false);
