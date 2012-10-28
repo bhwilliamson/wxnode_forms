@@ -57,13 +57,16 @@
 					createResource();
 				});
 				
-				//$("#resource").autocomplete({
-					//source: '<%= root %>/user/apps/lfcopencontentwell/resourceAutocomplete.htm',
-					//minLength: 3					
-				//});				
+				$("#resource").autocomplete({
+					source: function(request, response) {
+						$.getJSON('<%= root %>/user/apps/lfcopencontentwell/resourceAutocomplete.htm',
+							{resource:$('#resource').val(),platform:$('#platform').val()},
+							response);
+					},
+					minLength: 3					
+				});				
 				
 			});
-
 			function loadResource() {
 				clearMessages();
 				if (!validateTextFields()) {return;}				
