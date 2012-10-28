@@ -26,15 +26,21 @@
 				//opener is a reference to the content editor page, which gives you access to all global javascript variables
 				$('form').submit(function() {
 					var allInputNameValuePairs = '';
-					$('input:not(:button)').each(function(n,element) {
-						allInputNameValuePairs += $(this).attr("name") + '="' + cleanValue($(this).val()) + '" ';
+					//Get text fields
+					$('input:text').each(function(n,element) {
+						var input_name = $(this).attr("name");
+						if (input_name && input_name.indexOf('link_') == -1)
+							allInputNameValuePairs += input_name + '="' + cleanValue($(this).val()) + '" ';
+					});
+					//Get select options
+					$('select').each(function(n,element) {
+						allInputNameValuePairs += $(this).attr("name") + '="' + $(this).val() + '" ';
 					});
 					window.opener._editLiveInstance.InsertHTMLAtCursor("<wxnode:module " + allInputNameValuePairs + "/>");
 					//close the JSP page
 					window.close();
 				});
-				
-				//TODO: Add functions as binding to click of input buttons
+								
 				$('#clear').click(function() {
 					clearForm();
 				});
@@ -51,41 +57,48 @@
 					createResource();
 				});
 				
-				$("#resource").autocomplete({
-					source: '<%= root %>/user/apps/lfcopencontentwell/resourceAutocomplete.htm',
-					minLength: 3					
-				});				
+				//$("#resource").autocomplete({
+					//source: '<%= root %>/user/apps/lfcopencontentwell/resourceAutocomplete.htm',
+					//minLength: 3					
+				//});				
 				
 			});
 
 			function loadResource() {
 				clearMessages();
-				
+				if (!validateTextFields()) {return;}				
 				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/get.htm',
-					{resource:$('#resource').val()},
+					{resource:$('#resource').val(),platform:$('#platform').val()},
 					function(data) {
-						$('#title').val(data.title);
 						$('#providercode').val(data.providercode);
-						$('#property').val(data.property);
+						$('#platform').val(data.platform);
+						$('#display_messages').html(data.msg);
+						$('#error_messages').html(data.error);
+						if (undefined === data.error) {
+							$('#create').attr('style', 'display:none');
+							$('#update').attr('style', 'display:inline');
+							$('#delete').attr('style', 'display:inline');						
+						}
 					});
 
-				$('#create').attr('style', 'display:none');
-				$('#update').attr('style', 'display:inline');
-				$('#delete').attr('style', 'display:inline');
+
 			}
 			
 			function deleteResource() {
-				clearMessages();			
+				clearMessages();
+				if (!validateTextFields()) {return;}				
 				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/delete.htm',
-					{resource:$('#resource').val()},
+					{resource:$('#resource').val(),platform:$('#platform').val()},
 					function(data) {
-						//alert("Delete return: " + data.msg);
+						if (undefined === data.error) {
+							clearForm();
+							$('#create').attr('style', 'display:inline');
+							$('#update').attr('style', 'display:none');
+							$('#delete').attr('style', 'display:none');						
+						}
 						$('#display_messages').html(data.msg);
-					});
-				clearForm();
-				$('#create').attr('style', 'display:inline');
-				$('#update').attr('style', 'display:none');
-				$('#delete').attr('style', 'display:none');				
+						$('#error_messages').html(data.error);						
+					});				
 				
 			}
 			
@@ -97,50 +110,47 @@
 				  dataType: 'json',
 				  data: {
 						resource:$('#resource').val(),
-						title:$('#title').val(),
 						providercode:$('#providercode').val(),
-						property:$('#property').val()
+						platform:$('#platform').val()
 					},
 				  type: "post",
 				  success: function(data, status) {
-				  		//alert("Update return: " + data.msg);
 						$('#display_messages').html(data.msg);
+						$('#error_messages').html(data.error);
 					}
 				});
 			}			
 			
 			function createResource() {
 				clearMessages();				
-				if (!validateTextFields()) {return;}
-				
+				if (!validateTextFields()) {return;}				
 				$.ajax({
 				  url: '<%= root %>/user/apps/lfcopencontentwell/create.htm',
 				  dataType: 'json',
 				  data: {
 						resource:$('#resource').val(),
-						title:$('#title').val(),
 						providercode:$('#providercode').val(),
-						property:$('#property').val()
+						platform:$('#platform').val()
 					},
 				  type: "post",
 				  success: function(data, status) {
-				  		//alert("Create return: " + data.msg);
 						$('#display_messages').html(data.msg);
+						$('#error_messages').html(data.error);
+						if (undefined === data.error) {
+							$('#create').attr('style', 'display:none');
+							$('#update').attr('style', 'display:inline');
+							$('#delete').attr('style', 'display:inline');						
+						}						
 					}
-				});
-				
-				$('#create').attr('style', 'display:none');
-				$('#update').attr('style', 'display:inline');
-				$('#delete').attr('style', 'display:inline');				
+				});								
 			}			
 			
 			function clearForm() {
 				clearMessages();
 				
-				$('#title').val('');
 				$('#providercode').val('');
 				$('#resource').val('');
-				$('#property').val('mobile');
+				$('#platform').val('mobile');
 				
 				$('#create').attr('style', 'display:inline');
 				$('#update').attr('style', 'display:none');
@@ -167,24 +177,28 @@
                       		<td class="controlname"><label for="class">Class:</label></td>
                       		<td><input class="datadisplay required" size="50" id="class" name="class" type="text" tabindex="0" value="static-reference" readonly/></td>
                       	</tr>
+<!--                      	
                       	<tr>
                       		<td class="controlname"><label for="title">Title:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="title" name="title" type="text"/></td>
+                      		<td><input class="datadisplay" size="50" id="title" name="title" type="text"/></td>
                       	</tr>
+-->                      	
                         <tr>
 				<td class="controlname"><label for="providercode">Provider Code:</label></td>
 				<td><textarea rows="6" cols="45" id="providercode" name="providercode"></textarea></td>
                         </tr>
                       	<tr>
                       		<td class="controlname"><label for="resource">Resource Id:</label></td>
-                      		<td><input class="datadisplay" size="30" id="resource" name="resource" type="text" value=""/>&nbsp;<input id="load" type="button" value="Load Existing..."></input></td>
+                      		<td><input class="datadisplay required" size="30" id="resource" name="resource" type="text" value=""/>&nbsp;<input id="load" type="button" value="Load Existing..."></input></td>
                       	</tr>
                       	<tr>
-                      		<td class="controlname"><label for="property">Property:</label></td>
+                      		<td class="controlname"><label for="platform">Platform:</label></td>
                       		<td>
-                      			<select id="property" name="property">
-                      				<option value="desktop">Desktop</option>
-                      				<option value="mobile" selected="selected">Mobile</option>
+                      			<select id="platform" name="platform">
+                      				<option value="desktop" selected="selected">Desktop</option>
+                      				<option value="desktopi">Desktopi</option>
+                      				<option value="touch">Touch</option>
+                      				<option value="touchi">Touchi</option>
 					</select>
                       		</td>
                       	</tr>
