@@ -191,7 +191,7 @@
                       	</tr>                      	
                       	<tr>
                       		<td class="controlname"><label for="class">Class:</label></td>
-                      		<td><input class="datadisplay required" size="50" id="class" name="class" type="text" tabindex="0" value="static-reference" readonly/></td>
+                      		<td><input class="datadisplay required" size="50" id="class" name="class" type="text" tabindex="0" value="story-content-well" readonly/></td>
                       	</tr>
 <!--                      	
                       	<tr>
