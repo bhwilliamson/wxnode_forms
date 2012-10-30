@@ -69,30 +69,42 @@
 			});
 			function loadResource() {
 				clearMessages();
-				if (!validateTextFields()) {return;}				
-				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/get.htm',
-					{resource:$('#resource').val(),platform:$('#platform').val()},
-					function(data) {
-						$('#providercode').val(data.providercode);
-						$('#platform').val(data.platform);
+				if (!validateTextFields()) {return;}
+				$.ajax({
+				  url: '<%= root %>/user/apps/lfcopencontentwell/get.htm',
+				  dataType: 'json',
+				  data: {
+						resource:$('#resource').val(),
+						platform:$('#platform').val()
+					},
+				  type: "post",
+				  success: function(data, status) {
 						$('#display_messages').html(data.msg);
 						$('#error_messages').html(data.error);
 						if (undefined === data.error) {
 							$('#create').attr('style', 'display:none');
 							$('#update').attr('style', 'display:inline');
-							$('#delete').attr('style', 'display:inline');						
-						}
-					});
-
+							$('#delete').attr('style', 'display:inline');	
+							$('#providercode').val(data.providercode);
+							$('#platform').val(data.platform);							
+						}	
+					}
+				});				
 
 			}
 			
 			function deleteResource() {
 				clearMessages();
-				if (!validateTextFields()) {return;}				
-				$.getJSON('<%= root %>/user/apps/lfcopencontentwell/delete.htm',
-					{resource:$('#resource').val(),platform:$('#platform').val()},
-					function(data) {
+				if (!validateTextFields()) {return;}	
+				$.ajax({
+				  url: '<%= root %>/user/apps/lfcopencontentwell/delete.htm',
+				  dataType: 'json',
+				  data: {
+						resource:$('#resource').val(),
+						platform:$('#platform').val()
+					},
+				  type: "post",
+				  success: function(data, status) {
 						if (undefined === data.error) {
 							clearForm();
 							$('#create').attr('style', 'display:inline');
@@ -100,8 +112,9 @@
 							$('#delete').attr('style', 'display:none');						
 						}
 						$('#display_messages').html(data.msg);
-						$('#error_messages').html(data.error);						
-					});				
+						$('#error_messages').html(data.error);	
+					}
+				});				
 				
 			}
 			
@@ -153,7 +166,7 @@
 				
 				$('#providercode').val('');
 				$('#resource').val('');
-				$('#platform').val('mobile');
+				$('#platform').val('desktop');
 				
 				$('#create').attr('style', 'display:inline');
 				$('#update').attr('style', 'display:none');
