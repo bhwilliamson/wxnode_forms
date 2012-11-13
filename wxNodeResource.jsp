@@ -101,6 +101,7 @@
 				  dataType: 'json',
 				  data: {
 						resource:$('#resource').val(),
+						providercode:$('#providercode').val(),
 						platform:$('#platform').val()
 					},
 				  type: "post",
